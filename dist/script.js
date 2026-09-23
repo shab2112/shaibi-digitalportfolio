@@ -106,3 +106,15 @@ if ('IntersectionObserver' in window) {
 /* ---------- Open collapsed details when printing ---------- */
 addEventListener('beforeprint', () => document.querySelectorAll('details').forEach((d) => { d.dataset.was = d.open; d.open = true; }));
 addEventListener('afterprint', () => document.querySelectorAll('details').forEach((d) => { d.open = d.dataset.was === 'true'; }));
+
+/* Draw the career spine once as the timeline enters view. */
+const timeline = document.querySelector('.timeline');
+if (timeline && 'IntersectionObserver' in window) {
+  const timelineObserver = new IntersectionObserver((entries, observer) => {
+    if (entries.some((entry) => entry.isIntersecting)) {
+      timeline.classList.add('is-visible');
+      observer.disconnect();
+    }
+  }, { threshold: 0.15 });
+  timelineObserver.observe(timeline);
+}
