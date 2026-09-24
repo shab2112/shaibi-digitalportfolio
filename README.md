@@ -15,7 +15,7 @@ For a local preview, serve `dist/` with any static file server, for example `pyt
 
 ## Before you publish
 
-1. Open `dist/index.html` and replace `SITE_URL` in the `og:image` tag with your live domain (for example `https://shaibi.vercel.app`). LinkedIn and other sites need a full URL to show the preview image in `dist/og-image.png`.
+1. The social preview tags (`canonical`, `og:url`, `og:image`) in `dist/index.html` are set to `https://theideastock.com/shaibi_aiportfolio`. If the site moves, update all three: LinkedIn and other sites need absolute URLs to show `dist/og-image.png`.
 2. The typeface (Schibsted Grotesk, SIL Open Font License) is self-hosted in `dist/fonts/`, so the site makes no third-party requests.
 3. The contact form has no backend: it opens the visitor's email app with their message filled in. If you later want messages delivered directly, connect it to a form service such as Formspree and change the submit handler in `script.js`.
 4. Visitors can switch between dark and light themes; their choice is remembered in their browser.

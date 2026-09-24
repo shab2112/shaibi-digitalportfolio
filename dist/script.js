@@ -38,19 +38,32 @@ document.addEventListener('click', (e) => {
 const filterButtons = [...document.querySelectorAll('.layer-filter button')];
 const cards = [...document.querySelectorAll('.bento .card')];
 const filterStatus = document.querySelector('.filter-status');
+const matchesLayer = (card, layer) => layer === 'all' || card.dataset.layers.split(' ').includes(layer);
+
+/* Counts are rendered in the HTML too, but recomputing them here keeps every
+   chip honest if a project is ever added or its layers change. */
+filterButtons.forEach((button) => {
+  const count = button.querySelector('.count');
+  if (count) count.textContent = cards.filter((card) => matchesLayer(card, button.dataset.layer)).length;
+});
+
 filterButtons.forEach((button) => {
   button.addEventListener('click', () => {
     const layer = button.dataset.layer;
     filterButtons.forEach((b) => b.setAttribute('aria-pressed', String(b === button)));
     let matches = 0;
     cards.forEach((card) => {
-      const hit = layer === 'all' || card.dataset.layers.split(' ').includes(layer);
+      const hit = matchesLayer(card, layer);
       card.classList.toggle('is-dimmed', !hit);
+      /* Dimming alone still left the card tabbable and readable to screen
+         readers, so a filtered-out project was only visually filtered. */
+      card.inert = !hit;
       if (hit) matches += 1;
     });
+    const label = button.querySelector('.chip-label').textContent.trim().toLowerCase();
     filterStatus.textContent = layer === 'all'
       ? ''
-      : `${matches} ${matches === 1 ? 'project touches' : 'projects touch'} ${button.textContent.trim().toLowerCase()}.`;
+      : `${matches} ${matches === 1 ? 'project touches' : 'projects touch'} ${label}.`;
   });
 });
 

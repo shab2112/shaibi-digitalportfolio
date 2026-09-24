@@ -17,6 +17,14 @@
   --ease: cubic-bezier(0.23, 1, 0.32, 1);
   --aqua: #4be2c3;
   --on-accent: #062019;
+  /* One hue per system layer. Project cards and filter chips share these,
+     so the colour on a card tells you which layer it belongs to. */
+  --layer-agents: #4be2c3;
+  --layer-retrieval: #6db3ff;
+  --layer-safety: #ff8a7a;
+  --layer-controls: #f0b35c;
+  --layer-data: #a78bfa;
+  --layer-workflows: #f28ab2;
   color-scheme: dark;
 }
 [data-theme="dark"] {
@@ -117,6 +125,7 @@ nav a[aria-current] { color: var(--text); background: var(--accent-soft); }
 }
 .pill-button.large { min-height: 3.2rem; padding: .8rem 1.6rem; font-size: 1rem; }
 .pill-button.primary { border-color: transparent; background: linear-gradient(180deg, #5eeccf, var(--aqua)); color: var(--on-accent); box-shadow: 0 10px 28px -10px var(--glow), 0 1px 0 rgba(255,255,255,.35) inset; }
+.pill-button.secondary { border-color: var(--line-strong); background: transparent; }
 .pill-button:active { transform: scale(.97); }
 .text-button { padding: .1rem .55rem; border: 1px solid var(--line-strong); border-radius: 999px; background: transparent; color: var(--muted); font-size: .8rem; font-weight: 600; cursor: pointer; }
 
@@ -124,6 +133,8 @@ nav a[aria-current] { color: var(--text); background: var(--accent-soft); }
 .hero { position: relative; width: min(100% - 2 * var(--gutter), 960px); margin: 0 auto; padding: clamp(4.5rem, 11vw, 8rem) 0 clamp(3rem, 6vw, 4.5rem); text-align: center; }
 .hero-glow { position: absolute; z-index: -1; left: 50%; top: -6rem; width: min(760px, 100vw); aspect-ratio: 1.3; transform: translateX(-50%); background: radial-gradient(closest-side, var(--glow), transparent); filter: blur(10px); pointer-events: none; }
 .hero-glow.small { top: 10%; left: 20%; width: 520px; opacity: .7; }
+.portrait { display: block; width: clamp(92px, 11vw, 120px); margin: 0 auto 1.5rem; }
+.portrait img { display: block; width: 100%; height: auto; aspect-ratio: 1; border-radius: 50%; object-fit: cover; border: 2px solid color-mix(in srgb, var(--aqua) 40%, transparent); box-shadow: 0 12px 32px -14px var(--glow); background: var(--surface-2); }
 .hero-badge { display: inline-flex; align-items: center; gap: .55rem; margin: 0 0 1.6rem; padding: .4rem .9rem; border: 1px solid var(--line-strong); border-radius: 999px; background: var(--glass); color: var(--text-2); font-size: .9rem; font-weight: 550; }
 .status-dot { width: .5rem; height: .5rem; border-radius: 50%; background: var(--aqua); box-shadow: 0 0 0 4px var(--accent-soft); animation: pulse 2.4s ease-in-out infinite; }
 @keyframes pulse { 50% { box-shadow: 0 0 0 7px transparent; } }
@@ -145,9 +156,14 @@ h1 { margin: 0 auto; max-width: 16ch; font-size: clamp(2.6rem, 6.4vw, 5.1rem); l
 /* ---------- Proof ---------- */
 .proof { width: min(100% - 2 * var(--gutter), var(--max)); margin: clamp(3rem, 6vw, 4.5rem) auto 0; }
 .proof-list { margin: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; }
-.proof-list > div { padding: 1.3rem 1.4rem; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--surface); box-shadow: var(--shadow); }
-.proof-list dt { color: var(--accent-text); font-size: clamp(1.7rem, 2.6vw, 2.2rem); font-weight: 750; letter-spacing: -.03em; line-height: 1.1; }
-.proof-list dd { margin: .4rem 0 0; color: var(--muted); font-size: .9rem; line-height: 1.45; }
+.proof-list > div { position: relative; display: flex; flex-direction: column; padding: 1.3rem 1.4rem; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--surface); box-shadow: var(--shadow); transition: border-color 200ms var(--ease), transform 200ms var(--ease); }
+.proof-list dt { color: var(--accent-text); font-size: clamp(1.7rem, 2.6vw, 2.2rem); font-weight: 750; letter-spacing: -.03em; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.proof-list dd { display: flex; flex: 1; flex-direction: column; margin: .4rem 0 0; color: var(--muted); font-size: .9rem; line-height: 1.45; }
+/* Stretched link: the whole tile is clickable, so each number can be traced
+   back to the project it came from. */
+.tile-link { margin-top: auto; padding-top: .7rem; color: var(--accent-text); font-size: .85rem; font-weight: 650; text-decoration: none; }
+.tile-link::after { content: ""; position: absolute; inset: 0; border-radius: inherit; }
+.tile-link .ext { transition: transform 160ms var(--ease); }
 
 /* ---------- Sections ---------- */
 .section { position: relative; width: min(100% - 2 * var(--gutter), var(--max)); margin: 0 auto; padding: clamp(4.5rem, 9vw, 6.5rem) 0 0; }
@@ -158,9 +174,25 @@ h2 { margin: 0; font-size: clamp(2rem, 4.2vw, 3.2rem); line-height: 1.05; letter
 
 /* ---------- Layer filter ---------- */
 .layer-filter { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: .6rem; }
-.layer-filter button { display: inline-flex; align-items: center; gap: .45rem; padding: .45rem .95rem; border: 1px solid var(--line-strong); border-radius: 999px; background: var(--surface); color: var(--text-2); font-size: .9rem; font-weight: 600; cursor: pointer; transition: background-color 160ms var(--ease), color 160ms var(--ease), border-color 160ms var(--ease); }
-.layer-filter button[aria-pressed="true"] { border-color: transparent; background: var(--aqua); color: var(--on-accent); }
-.layer-filter .count { padding: 0 .4rem; border-radius: 999px; background: rgba(0,0,0,.14); font-size: .78rem; }
+.layer-filter button { --chip: var(--accent-text); display: inline-flex; align-items: center; gap: .45rem; padding: .45rem .95rem; border: 1px solid var(--line-strong); border-radius: 999px; background: var(--surface); color: var(--text-2); font-size: .9rem; font-weight: 600; cursor: pointer; transition: background-color 160ms var(--ease), color 160ms var(--ease), border-color 160ms var(--ease); }
+.layer-filter button[data-layer="agents"] { --chip: var(--layer-agents); }
+.layer-filter button[data-layer="retrieval"] { --chip: var(--layer-retrieval); }
+.layer-filter button[data-layer="safety"] { --chip: var(--layer-safety); }
+.layer-filter button[data-layer="controls"] { --chip: var(--layer-controls); }
+.layer-filter button[data-layer="data"] { --chip: var(--layer-data); }
+.layer-filter button[data-layer="workflows"] { --chip: var(--layer-workflows); }
+/* The dot keeps the layer/colour mapping legible while the chip is unpressed. */
+.layer-filter button::before { content: ""; width: .55rem; height: .55rem; border-radius: 50%; background: var(--chip); }
+/* "All" keeps the bright brand aqua: --accent-text is a dark green in the light
+   theme, and the dark ink on top of it only reached 3.3:1 when pressed. */
+.layer-filter button[data-layer="all"] { --chip: var(--aqua); }
+.layer-filter button[data-layer="all"]::before { background: none; box-shadow: inset 0 0 0 2px var(--line-strong); }
+[data-theme="light"] .layer-filter button::before { background: color-mix(in srgb, var(--chip) 78%, #0f1c28); }
+[data-theme="light"] .layer-filter button[aria-pressed="true"]::before { background: color-mix(in srgb, var(--on-accent) 45%, transparent); }
+.layer-filter button[aria-pressed="true"] { border-color: transparent; background: var(--chip); color: var(--on-accent); }
+.layer-filter button[aria-pressed="true"]::before { background: color-mix(in srgb, var(--on-accent) 45%, transparent); box-shadow: none; }
+.layer-filter .count { min-width: 1.25rem; padding: 0 .35rem; border-radius: 999px; background: rgba(0,0,0,.14); font-size: .78rem; text-align: center; font-variant-numeric: tabular-nums; }
+[data-theme="light"] .layer-filter button:not([aria-pressed="true"]) .count { background: rgba(15, 40, 55, .08); }
 .filter-status { min-height: 1.4rem; margin: 0 0 1rem; color: var(--muted); font-size: .88rem; }
 
 /* ---------- Cards / bento ---------- */
@@ -175,7 +207,12 @@ h2 { margin: 0; font-size: clamp(2rem, 4.2vw, 3.2rem); line-height: 1.05; letter
   scroll-margin-top: 6rem;
   transition: transform 260ms var(--ease), border-color 260ms var(--ease), box-shadow 260ms var(--ease), opacity 260ms var(--ease), filter 260ms var(--ease);
 }
-.tint-aqua { --tint: #4be2c3; } .tint-sky { --tint: #6db3ff; } .tint-amber { --tint: #f0b35c; } .tint-violet { --tint: #a78bfa; } .tint-coral { --tint: #ff8a7a; }
+.tint-agents { --tint: var(--layer-agents); }
+.tint-retrieval { --tint: var(--layer-retrieval); }
+.tint-safety { --tint: var(--layer-safety); }
+.tint-controls { --tint: var(--layer-controls); }
+.tint-data { --tint: var(--layer-data); }
+.tint-workflows { --tint: var(--layer-workflows); }
 .card-visual { position: relative; aspect-ratio: 400 / 170; border-bottom: 1px solid var(--line); background: radial-gradient(120% 90% at 50% 0%, color-mix(in srgb, var(--tint) calc(var(--tint-mix) + 10%), var(--surface)), color-mix(in srgb, var(--tint) var(--tint-mix), var(--surface))); }
 .card.wide .card-visual { aspect-ratio: auto; }
 .viz { display: block; width: 100%; height: 100%; }
@@ -186,6 +223,7 @@ h2 { margin: 0; font-size: clamp(2rem, 4.2vw, 3.2rem); line-height: 1.05; letter
 .viz-stroke { fill: none; stroke: var(--tint); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
 .viz-dash { fill: none; stroke: color-mix(in srgb, var(--tint) 60%, transparent); stroke-width: 2; stroke-dasharray: 5 6; }
 .viz-text text { fill: var(--text-2); font: 600 12px var(--font); text-anchor: middle; }
+.viz-text text.from-left { text-anchor: start; fill: var(--muted); }
 [data-theme="light"] .card-visual { --tint-ink: color-mix(in srgb, var(--tint) 70%, #0f1c28); }
 [data-theme="light"] .viz-nodes rect, [data-theme="light"] .viz-nodes circle, [data-theme="light"] .viz-stroke { stroke: var(--tint-ink); }
 [data-theme="light"] .viz-core, [data-theme="light"] .viz-bars rect { fill: var(--tint-ink); }
@@ -193,6 +231,10 @@ h2 { margin: 0; font-size: clamp(2rem, 4.2vw, 3.2rem); line-height: 1.05; letter
 .card-body { display: flex; flex: 1; flex-direction: column; padding: 1.4rem 1.5rem 1.5rem; }
 .card-top { display: flex; align-items: center; justify-content: space-between; gap: .75rem; flex-wrap: wrap; }
 .card-type { margin: 0; color: var(--muted); font-size: .88rem; font-weight: 600; }
+/* The badge gets a row of its own. It used to share a line with .card-type and
+   wrapped on the narrower cards, which pushed one title out of alignment with
+   its row-mates, and the shuffle changed with the viewport width. */
+.card-meta { display: grid; justify-items: start; gap: .45rem; }
 .badge { display: inline-block; padding: .15rem .6rem; border: 1px solid color-mix(in srgb, var(--tint, var(--aqua)) 45%, transparent); border-radius: 999px; background: color-mix(in srgb, var(--tint, var(--aqua)) 12%, transparent); color: var(--text); font-size: .78rem; font-weight: 650; white-space: nowrap; }
 .card h3 { margin: .55rem 0 .7rem; font-size: clamp(1.4rem, 2.3vw, 1.85rem); line-height: 1.1; letter-spacing: -.025em; }
 .card.wide h3 { font-size: clamp(1.9rem, 3.4vw, 2.6rem); }
@@ -203,9 +245,14 @@ h2 { margin: 0; font-size: clamp(2rem, 4.2vw, 3.2rem); line-height: 1.05; letter
 .card-links { margin: auto 0 0; padding-top: .4rem; color: var(--muted); font-size: .95rem; }
 .explore { color: var(--accent-text); font-weight: 650; text-decoration: none; background-image: linear-gradient(currentColor, currentColor); background-size: 0 1px; background-repeat: no-repeat; background-position: 0 100%; transition: background-size 220ms var(--ease); }
 
-/* Luminar: visual sits to the left on wide screens */
+/* Luminar: visual sits to the left on wide screens. The side panel is roughly
+   340x580, so it gets a portrait composition; the banner version is used once
+   the card stacks. */
 .card.wide { flex-direction: row; }
-.card.wide .card-visual { flex: 0 0 44%; border-bottom: 0; border-right: 1px solid var(--line); display: grid; place-items: center; padding: 1rem; }
+.card.wide .card-visual { flex: 0 0 44%; border-bottom: 0; border-right: 1px solid var(--line); display: block; padding: 0; }
+.viz-portrait { display: none; }
+.card.wide .viz-portrait { display: block; }
+.card.wide .viz-banner { display: none; }
 
 details { margin: 0 0 1rem; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
 details summary { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: .7rem 0; cursor: pointer; list-style: none; font-size: .93rem; font-weight: 600; }
@@ -215,9 +262,9 @@ details[open] summary::after { transform: rotate(45deg); }
 details p { margin: 0 0 .75rem; color: var(--muted); font-size: .92rem; }
 details strong { color: var(--text-2); }
 
-/* Filter states */
+/* Filter states. Dimmed cards also get [inert] from script.js so they leave the
+   tab order and the accessibility tree, not just fade visually. */
 .card.is-dimmed { opacity: .32; filter: saturate(.3); }
-.card.is-flash { border-color: var(--accent-text); }
 
 /* ---------- Research ---------- */
 .pub-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
@@ -241,15 +288,20 @@ details strong { color: var(--text-2); }
 .disclosure { margin: 1rem 0 0; color: var(--muted); font-size: .85rem; }
 .flow { position: relative; margin: 0; padding: 0; list-style: none; display: grid; gap: .6rem; align-content: center; }
 .flow::before { content: ""; position: absolute; left: calc(.9rem + .85rem - 1px); top: 1.5rem; bottom: 1.5rem; width: 2px; background: linear-gradient(var(--tint), color-mix(in srgb, var(--tint) 20%, transparent)); }
-.flow li { position: relative; display: flex; align-items: center; gap: .9rem; padding: .7rem .9rem; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--glass); }
+.flow li { position: relative; display: flex; align-items: center; gap: .9rem; padding: .7rem .9rem; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--surface); }
 .step-n { flex: none; display: grid; place-items: center; width: 1.7rem; height: 1.7rem; border-radius: 50%; background: var(--tint); color: #07111d; font-size: .8rem; font-weight: 800; box-shadow: 0 0 0 4px var(--surface); }
 .flow strong { display: block; line-height: 1.25; }
 .flow small { color: var(--muted); font-size: .85rem; }
 
 /* ---------- Career ---------- */
-.split { display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr); gap: 2.5rem 4rem; align-items: start; }
-.sticky-head { position: sticky; top: 7rem; }
-.sticky-head .card-links { margin-top: 1.4rem; }
+.split { display: grid; grid-template-columns: minmax(0, .72fr) minmax(0, 1.28fr); gap: 2.5rem 3.5rem; align-items: start; }
+.career-aside { position: sticky; top: 7rem; display: grid; gap: 1.6rem; align-content: start; }
+.career-aside .section-head { margin-bottom: 0; }
+.resume-card { display: flex; align-items: center; gap: .95rem; padding: 1.05rem 1.2rem; border: 1px solid var(--line-strong); border-radius: var(--radius); background: var(--surface); box-shadow: var(--shadow); text-decoration: none; transition: transform 200ms var(--ease), border-color 200ms var(--ease), box-shadow 200ms var(--ease); }
+.resume-card svg { flex: none; width: 1.35rem; height: 1.35rem; fill: none; stroke: var(--accent-text); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.resume-card div { display: grid; gap: .1rem; min-width: 0; }
+.resume-card strong { font-size: .98rem; font-weight: 650; }
+.resume-card small { color: var(--muted); font-size: .84rem; }
 .timeline { position: relative; margin: 0; padding: 0 0 0 2rem; list-style: none; display: grid; gap: 1.25rem; isolation: isolate; }
 .timeline::before, .timeline::after { content: ""; position: absolute; left: .4rem; top: 1.8rem; bottom: 1.8rem; width: 2px; border-radius: 2px; pointer-events: none; }
 .timeline::before { background: var(--line-strong); }
@@ -268,9 +320,10 @@ details strong { color: var(--text-2); }
 .tech-list { margin: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.4rem 2.5rem; }
 .tech-list dt { margin-bottom: .3rem; font-size: .95rem; font-weight: 650; }
 .tech-list dd { margin: 0; color: var(--muted); font-size: .92rem; line-height: 1.55; }
+.tech-note { margin: 1.4rem 0 0; color: var(--muted); font-size: .88rem; }
 
 /* ---------- Contact ---------- */
-.contact { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 2.5rem 4rem; align-items: center; padding-bottom: clamp(4rem, 8vw, 6rem); }
+.contact { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 2.5rem 4rem; align-items: start; padding-bottom: clamp(4rem, 8vw, 6rem); }
 .contact h2 { font-size: clamp(2rem, 4.2vw, 3.2rem); }
 .contact-links { display: grid; gap: .6rem; margin: 1.6rem 0 0; padding: 0; list-style: none; }
 .contact-links li { display: flex; align-items: center; gap: .6rem; }
@@ -294,9 +347,9 @@ details strong { color: var(--text-2); }
 /* ---------- Load moment ---------- */
 @keyframes rise { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
 .js .hero > :not(.hero-glow) { animation: rise 600ms var(--ease) both; }
-.js .hero > :nth-child(3) { animation-delay: 70ms; }
-.js .hero > :nth-child(4) { animation-delay: 140ms; }
-.js .hero > :nth-child(n+5) { animation-delay: 210ms; }
+.js .hero > :nth-child(4) { animation-delay: 70ms; }
+.js .hero > :nth-child(5) { animation-delay: 140ms; }
+.js .hero > :nth-child(n+6) { animation-delay: 210ms; }
 
 /* ---------- Hover (pointer devices only) ---------- */
 @media (hover: hover) and (pointer: fine) {
@@ -310,7 +363,10 @@ details strong { color: var(--text-2); }
   .card:not(.feature):not(.tech):not(.contact-form):hover { transform: translateY(-3px); border-color: color-mix(in srgb, var(--tint) 45%, var(--line)); }
   .explore:hover { background-size: 100% 1px; }
   a:hover .ext { transform: translate(2px, -2px); }
-  .layer-filter button:hover { border-color: var(--accent-text); }
+  .layer-filter button:hover { border-color: var(--chip); }
+  .proof-list > div:hover { transform: translateY(-2px); border-color: color-mix(in srgb, var(--accent-text) 45%, var(--line)); }
+  .proof-list > div:hover .ext { transform: translateY(2px); }
+  .resume-card:hover { transform: translateY(-2px); border-color: var(--accent-text); box-shadow: var(--shadow), 0 16px 32px -20px var(--glow); }
   details summary:hover { color: var(--accent-text); }
   .text-button:hover { color: var(--text); border-color: var(--accent-text); }
 }
@@ -335,13 +391,20 @@ details strong { color: var(--text-2); }
   nav a { padding: .8rem 1rem; border-radius: var(--radius-sm); font-size: 1rem; }
   .card.wide { flex-direction: column; }
   .card.wide .card-visual { flex: none; aspect-ratio: 400 / 170; border-right: 0; border-bottom: 1px solid var(--line); padding: 0; }
+  .card.wide .viz-portrait { display: none; }
+  .card.wide .viz-banner { display: block; }
   .card.feature, .split, .contact { grid-template-columns: 1fr; }
-  .sticky-head { position: static; }
+  .career-aside { position: static; }
   .pub-grid { grid-template-columns: 1fr; }
 }
 @media (max-width: 640px) {
   body { font-size: 1rem; }
   .brand-name > span { display: none; }
+  .hero { text-align: left; }
+  .hero h1 { max-width: none; margin-inline: 0; }
+  .hero .lead { margin-inline: 0; }
+  .hero .portrait { margin-inline: 0; }
+  .hero-actions, .checks { justify-content: flex-start; }
   .bento { grid-template-columns: 1fr; }
   .proof-list { grid-template-columns: 1fr 1fr; gap: .6rem; }
   .proof-list > div { padding: 1rem; }
@@ -368,6 +431,7 @@ details strong { color: var(--text-2); }
 
 @media print {
   .site-header, .hero-actions, .hero-glow, .marquee, .layer-filter, .contact-form, .site-footer { display: none; }
+  .portrait { width: 90px; }
   body { background: #fff; color: #000; }
   .card { box-shadow: none; break-inside: avoid; }
 }

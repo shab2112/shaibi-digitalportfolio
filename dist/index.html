@@ -7,11 +7,14 @@
   <meta name="description" content="Shaibi Shamsudeen is a Systems Architect and AI safety researcher in Dubai, working across multi-agent systems, retrieval, LLM safety research and enterprise risk controls.">
   <meta name="theme-color" content="#07111d">
 
-  <!-- Social sharing. Replace SITE_URL with your live domain (e.g. https://shaibi.vercel.app) so LinkedIn can find the image. -->
+  <!-- Social sharing. These URLs must stay absolute and must match the deployed
+       path, or LinkedIn and X cannot resolve the preview image. -->
+  <link rel="canonical" href="https://theideastock.com/shaibi_aiportfolio/">
   <meta property="og:type" content="profile">
+  <meta property="og:url" content="https://theideastock.com/shaibi_aiportfolio/">
   <meta property="og:title" content="Shaibi Shamsudeen | AI Systems Architect">
   <meta property="og:description" content="Multi-agent systems, retrieval, LLM safety research and enterprise controls. Open to senior AI architecture roles.">
-  <meta property="og:image" content="SITE_URL/og-image.png">
+  <meta property="og:image" content="https://theideastock.com/shaibi_aiportfolio/og-image.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
@@ -32,6 +35,7 @@
     "@type": "Person",
     "name": "Shaibi Shamsudeen",
     "jobTitle": "AI Systems Architect",
+    "image": "https://theideastock.com/shaibi_aiportfolio/portrait.jpg",
     "email": "mailto:shaibis@gmail.com",
     "address": { "@type": "PostalAddress", "addressLocality": "Dubai", "addressCountry": "AE" },
     "sameAs": [
@@ -74,6 +78,10 @@
   <main id="main">
     <section class="hero" id="top" aria-labelledby="hero-title">
       <div class="hero-glow" aria-hidden="true"></div>
+      <picture class="portrait">
+        <source srcset="portrait.webp" type="image/webp">
+        <img src="portrait.jpg" width="480" height="480" alt="Shaibi Shamsudeen" fetchpriority="high" decoding="async">
+      </picture>
       <p class="hero-badge"><span class="status-dot" aria-hidden="true"></span>Open to senior AI architecture roles.</p>
       <h1 id="hero-title">AI systems that connect models, data and controls to real work.</h1>
       <p class="lead">I'm <strong>Shaibi Shamsudeen</strong>, a Systems Architect and AI safety researcher. I've shipped multi-agent research tools, conversational platforms for real-estate brokerages and ML trading pipelines, and led the functional architecture of a risk platform later acquired by Dow Jones.</p>
@@ -103,10 +111,10 @@
 
     <section class="proof" aria-label="Selected outcomes">
       <dl class="proof-list">
-        <div><dt>2nd place</dt><dd>Outskill AI Accelerator, from 250+ participants</dd></div>
-        <div><dt>&lt;1%</dt><dd>Prediction error after the correction engine I designed</dd></div>
-        <div><dt>40%</dt><dd>Efficiency gain in compliance workflows</dd></div>
-        <div><dt>2</dt><dd>Accepted LLM safety workshop papers, NeurIPS 2025 and COLM 2026</dd></div>
+        <div><dt>2nd</dt><dd>Place at the Outskill AI Accelerator, from 250+ participants<a class="tile-link" href="#case-luminar">Luminar<span class="ext" aria-hidden="true">↓</span></a></dd></div>
+        <div><dt>&lt;1%</dt><dd>Prediction error after the correction engine I designed<a class="tile-link" href="#case-trading">Trading systems<span class="ext" aria-hidden="true">↓</span></a></dd></div>
+        <div><dt>40%</dt><dd>Efficiency gain in compliance workflows<a class="tile-link" href="#career">GRC automation<span class="ext" aria-hidden="true">↓</span></a></dd></div>
+        <div><dt>2</dt><dd>Accepted LLM safety workshop papers, NeurIPS 2025 and COLM 2026<a class="tile-link" href="#research">Both papers<span class="ext" aria-hidden="true">↓</span></a></dd></div>
       </dl>
     </section>
 
@@ -118,21 +126,55 @@
       </header>
 
       <div class="layer-filter" role="group" aria-label="Filter projects by system layer">
-        <button type="button" data-layer="all" aria-pressed="true">All <span class="count">5</span></button>
-        <button type="button" data-layer="agents" aria-pressed="false">Agents</button>
-        <button type="button" data-layer="retrieval" aria-pressed="false">Retrieval</button>
-        <button type="button" data-layer="safety" aria-pressed="false">Model safety</button>
-        <button type="button" data-layer="controls" aria-pressed="false">Controls and evidence</button>
-        <button type="button" data-layer="data" aria-pressed="false">Data and ML</button>
-        <button type="button" data-layer="workflows" aria-pressed="false">Business workflows</button>
+        <button type="button" data-layer="all" aria-pressed="true"><span class="chip-label">All</span> <span class="count">5</span></button>
+        <button type="button" data-layer="agents" aria-pressed="false"><span class="chip-label">Agents</span> <span class="count">2</span></button>
+        <button type="button" data-layer="retrieval" aria-pressed="false"><span class="chip-label">Retrieval</span> <span class="count">2</span></button>
+        <button type="button" data-layer="safety" aria-pressed="false"><span class="chip-label">Model safety</span> <span class="count">1</span></button>
+        <button type="button" data-layer="controls" aria-pressed="false"><span class="chip-label">Controls and evidence</span> <span class="count">1</span></button>
+        <button type="button" data-layer="data" aria-pressed="false"><span class="chip-label">Data and ML</span> <span class="count">1</span></button>
+        <button type="button" data-layer="workflows" aria-pressed="false"><span class="chip-label">Business workflows</span> <span class="count">2</span></button>
       </div>
       <p class="filter-status" role="status" aria-live="polite"></p>
 
       <div class="bento">
+        <!-- Every card follows the same contract: visual + badge, card-type, title,
+             outcome, summary, optional details, tags, links. The tint names the
+             card's primary system layer and matches its filter chip. -->
+
         <!-- Luminar -->
-        <article class="card wide tint-aqua" id="case-luminar" data-layers="agents retrieval">
-          <div class="card-visual" aria-hidden="true">
-            <svg viewBox="0 0 400 180" class="viz">
+        <article class="card wide tint-agents" id="case-luminar" data-layers="agents retrieval">
+          <div class="card-visual">
+            <svg viewBox="0 0 340 560" class="viz viz-portrait" aria-hidden="true" preserveAspectRatio="xMidYMid meet">
+              <g class="viz-lines">
+                <path d="M60 56 L60 88"/>
+                <path d="M60 136 L60 444"/>
+                <path d="M60 196 h60 M60 240 h60 M60 284 h60 M60 328 h60 M60 372 h60"/>
+                <path d="M60 492 L60 512"/>
+              </g>
+              <g class="viz-nodes">
+                <rect x="10" y="24" width="100" height="32" rx="16"/>
+                <rect x="120" y="180" width="200" height="32" rx="16"/>
+                <rect x="120" y="224" width="200" height="32" rx="16"/>
+                <rect x="120" y="268" width="200" height="32" rx="16"/>
+                <rect x="120" y="312" width="200" height="32" rx="16"/>
+                <rect x="120" y="356" width="200" height="32" rx="16"/>
+                <rect x="10" y="512" width="100" height="32" rx="16"/>
+              </g>
+              <circle class="viz-core" cx="60" cy="112" r="24"/>
+              <circle class="viz-core" cx="60" cy="468" r="24"/>
+              <g class="viz-text">
+                <text x="60" y="44">Query</text>
+                <text class="from-left" x="96" y="117">Orchestrate</text>
+                <text x="220" y="201">Web</text>
+                <text x="220" y="245">Academic</text>
+                <text x="220" y="289">News</text>
+                <text x="220" y="333">Video</text>
+                <text x="220" y="377">Vector store</text>
+                <text class="from-left" x="96" y="473">Consolidate</text>
+                <text x="60" y="532">Report</text>
+              </g>
+            </svg>
+            <svg viewBox="0 0 400 180" class="viz viz-banner" aria-hidden="true">
               <g class="viz-lines">
                 <path d="M200 90 L80 40 M200 90 L80 140 M200 90 L320 40 M200 90 L320 140 M200 90 L200 22 M200 90 L200 158"/>
               </g>
@@ -146,7 +188,7 @@
             </svg>
           </div>
           <div class="card-body">
-            <div class="card-top"><p class="card-type">Multi-agent research system</p><span class="badge">Open source</span></div>
+            <div class="card-meta"><span class="badge">Open source</span><p class="card-type">Multi-agent research system</p></div>
             <h3>Luminar</h3>
             <p class="card-outcome">45% better retrieval efficiency than the project baseline. Second prize among 250+ accelerator participants.</p>
             <p class="card-summary">A deep-research system that coordinates specialised agents across web, video, academic, news and vector sources. Parallel agents share state and hand results to a consolidation step that checks for contradictions, with caching, cost tracking and multi-format exports around the core loop.</p>
@@ -156,16 +198,16 @@
         </article>
 
         <!-- CERICO -->
-        <article class="card tint-amber" id="case-cerico" data-layers="controls workflows">
-          <div class="card-visual" aria-hidden="true">
-            <svg viewBox="0 0 400 180" class="viz">
+        <article class="card tint-controls" id="case-cerico" data-layers="controls workflows">
+          <div class="card-visual">
+            <svg viewBox="0 0 400 180" class="viz" aria-hidden="true">
               <g class="viz-nodes"><rect x="70" y="30" width="260" height="120" rx="12"/></g>
               <g class="viz-lines"><path d="M90 62h120M90 92h120M90 122h120"/></g>
               <g class="viz-bars"><rect x="230" y="55" width="80" height="12" rx="6"/><rect x="230" y="85" width="56" height="12" rx="6"/><rect x="230" y="115" width="30" height="12" rx="6"/></g>
             </svg>
           </div>
           <div class="card-body">
-            <div class="card-top"><p class="card-type">Enterprise risk platform</p><span class="badge">Acquired</span></div>
+            <div class="card-meta"><span class="badge">Acquired</span><p class="card-type">Enterprise risk platform</p></div>
             <h3>CERICO</h3>
             <p class="card-outcome">Acquired by Dow Jones in March 2018.</p>
             <p class="card-summary">A cloud platform for auditable third-party risk assessment. I led the functional architecture across questionnaires, scoring, workflow states, approvals, escalations, controls and reporting.</p>
@@ -175,16 +217,16 @@
         </article>
 
         <!-- Real estate -->
-        <article class="card tint-sky" id="case-realestate" data-layers="agents retrieval workflows">
-          <div class="card-visual" aria-hidden="true">
-            <svg viewBox="0 0 400 180" class="viz">
+        <article class="card tint-workflows" id="case-realestate" data-layers="workflows agents retrieval">
+          <div class="card-visual">
+            <svg viewBox="0 0 400 180" class="viz" aria-hidden="true">
               <g class="viz-nodes"><rect x="60" y="34" width="170" height="40" rx="20"/><rect x="170" y="96" width="170" height="40" rx="20"/></g>
               <g class="viz-lines"><path d="M84 54h110M194 116h110"/></g>
               <path class="viz-core" d="M330 40c-12 0-20 9-20 20 0 15 20 34 20 34s20-19 20-34c0-11-8-20-20-20z"/>
             </svg>
           </div>
           <div class="card-body">
-            <div class="card-top"><p class="card-type">Conversational AI and operations</p><span class="badge">In production</span></div>
+            <div class="card-meta"><span class="badge">In production</span><p class="card-type">Conversational AI and operations</p></div>
             <h3>Real-estate intelligence platform</h3>
             <p class="card-outcome">Built and deployed for two Dubai brokerages.</p>
             <p class="card-summary">Connects conversational property discovery to leads, CRM, real-time reporting and financial workflows in one platform.</p>
@@ -194,14 +236,15 @@
               <p><strong>Operations.</strong> Chat-to-lead registration, CRM lifecycle, AI-assisted receipt scanning, milestone-based commission invoicing and tax invoices designed for UAE VAT.</p>
               <p><strong>Confidentiality.</strong> Proprietary client work; source code is not public.</p>
             </details>
+            <ul class="tags" aria-label="Areas"><li>Live audio</li><li>Tool calling</li><li>Google Maps</li><li>CRM workflows</li></ul>
             <p class="card-links">For <a class="explore" href="https://www.ainglobalrealestate.com/" target="_blank" rel="noreferrer">AIN Global<span class="ext" aria-hidden="true">↗</span><span class="sr-only"> (opens in a new tab)</span></a> and <a class="explore" href="https://www.lockwoodandcarter.com/" target="_blank" rel="noreferrer">Lockwood &amp; Carter<span class="ext" aria-hidden="true">↗</span><span class="sr-only"> (opens in a new tab)</span></a></p>
           </div>
         </article>
 
         <!-- Trading -->
-        <article class="card tint-violet" id="case-trading" data-layers="data">
-          <div class="card-visual" aria-hidden="true">
-            <svg viewBox="0 0 400 180" class="viz">
+        <article class="card tint-data" id="case-trading" data-layers="data">
+          <div class="card-visual">
+            <svg viewBox="0 0 400 180" class="viz" aria-hidden="true">
               <g class="viz-lines"><path d="M50 150h300M50 30v120"/></g>
               <path class="viz-dash" d="M50 120 L110 96 L170 110 L230 64 L290 84 L350 44"/>
               <path class="viz-stroke" d="M50 124 L110 102 L170 104 L230 72 L290 78 L350 50"/>
@@ -209,7 +252,7 @@
             </svg>
           </div>
           <div class="card-body">
-            <div class="card-top"><p class="card-type">Applied machine learning</p><span class="badge">In production</span></div>
+            <div class="card-meta"><span class="badge">In production</span><p class="card-type">Applied machine learning</p></div>
             <h3>Trading and analytics systems</h3>
             <p class="card-outcome">Prediction error below 1% after a correction algorithm I designed.</p>
             <p class="card-summary">Market-data pipelines and ML services for prediction, correction, forecasting and trade analytics.</p>
@@ -219,13 +262,14 @@
               <p><strong>Contribution.</strong> A new combination algorithm inside the correction engine, a layer that runs after stock-price prediction and before corrected prices feed order and signal calculations.</p>
             </details>
             <ul class="tags" aria-label="Technologies"><li>Python</li><li>TensorFlow</li><li>PostgreSQL</li><li>Flask</li></ul>
+            <p class="card-links">Proprietary system, no public repository</p>
           </div>
         </article>
 
         <!-- Refusal research -->
-        <article class="card tint-coral" id="case-refusal" data-layers="safety">
-          <div class="card-visual" aria-hidden="true">
-            <svg viewBox="0 0 400 180" class="viz">
+        <article class="card tint-safety" id="case-refusal" data-layers="safety">
+          <div class="card-visual">
+            <svg viewBox="0 0 400 180" class="viz" aria-hidden="true">
               <g class="viz-lines"><path d="M200 150 L110 50 M200 150 L150 34 M200 150 L260 36 M200 150 L310 60"/></g>
               <path class="viz-stroke" d="M200 150 L330 98"/>
               <path class="viz-dash" d="M310 60 Q340 76 330 98"/>
@@ -233,7 +277,7 @@
             </svg>
           </div>
           <div class="card-body">
-            <div class="card-top"><p class="card-type">Model safety research</p><span class="badge">Published</span></div>
+            <div class="card-meta"><span class="badge">Published</span><p class="card-type">Model safety research</p></div>
             <h3>Refusal control in Llama 3 8B</h3>
             <p class="card-outcome">Accepted at NeurIPS 2025 and COLM 2026 interpretability workshops.</p>
             <p class="card-summary">Mechanistic-interpretability research into category-specific refusal directions and steering them at inference time, with the Algoverse AI Research team.</p>
@@ -294,12 +338,20 @@
 
     <section class="section" id="career" aria-labelledby="career-title">
       <div class="split">
-        <header class="section-head sticky-head">
-          <p class="comment">// Career</p>
-          <h2 id="career-title">From enterprise controls to AI systems</h2>
-          <p class="section-sub">The thread through all of it is functional architecture: turning policy, risk, data and operating needs into systems people can use and verify.</p>
-          <p class="card-links"><a class="explore" href="Shaibi_Shamsudeen_AI_Systems_Architect_Resume.pdf" download>Download the full resume <span class="file-hint">PDF, 90 KB</span></a></p>
-        </header>
+        <div class="career-aside">
+          <header class="section-head">
+            <p class="comment">// Career</p>
+            <h2 id="career-title">From enterprise controls to AI systems</h2>
+            <p class="section-sub">The thread through all of it is functional architecture: turning policy, risk, data and operating needs into systems people can use and verify.</p>
+          </header>
+          <a class="resume-card" href="Shaibi_Shamsudeen_AI_Systems_Architect_Resume.pdf" download>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 11l5 5 5-5M5 21h14"/></svg>
+            <div>
+              <strong>Download the full resume</strong>
+              <small>PDF, 90 KB. Complete role history, dates and tooling.</small>
+            </div>
+          </a>
+        </div>
         <ol class="timeline">
           <li><article class="timeline-card"><span class="when">2024 to now</span><div><h3>Head of Engineering Unit, Proceedit Trading</h3><p>Lead a five-person quantitative and software team. Personally developed the correction-engine algorithm that brought prediction error below 1%.</p></div></article></li>
           <li><article class="timeline-card"><span class="when">May to Dec 2023</span><div><h3>Data Analyst, Avenir Arabia IT DMCC</h3><p>Cleaned and consolidated multi-source data, built Python, Power BI and Tableau dashboards, and defined KPIs to turn client process challenges into actionable insights.</p></div></article></li>
@@ -312,13 +364,14 @@
         <div class="card-body">
           <h3>Technology experience</h3>
           <dl class="tech-list">
-            <div><dt>AI and agents</dt><dd>OpenAI, Gemini, Hugging Face, LangGraph, LangChain, RAG, ChromaDB, Loop Engineering, prompt design, function calling, activation steering</dd></div>
-            <div><dt>Data science</dt><dd>Python, pandas, NumPy, scikit-learn, TensorFlow, PyTorch, Matplotlib, statistical analysis, feature engineering, time-series modelling, backtesting</dd></div>
-            <div><dt>Applications</dt><dd>TypeScript, React, Flask, FastAPI, Streamlit, REST APIs, event-driven systems, Web Audio, Google Maps 3D</dd></div>
-            <div><dt>Data and delivery</dt><dd>PostgreSQL, MySQL, Supabase, AWS, Docker, Git, GitHub, CI/CD, Vercel</dd></div>
-            <div><dt>Analytics</dt><dd>SQL, Power BI, Tableau, KPI design, dashboarding, data-quality controls</dd></div>
-            <div><dt>AI development tools</dt><dd>Claude Code, Antigravity, Windsurf, Devin, OpenClaw, Hermes Agent</dd></div>
+            <div><dt>AI and agents</dt><dd>LangGraph, LangChain, RAG and ChromaDB, function calling, activation steering</dd></div>
+            <div><dt>Data science</dt><dd>Python, PyTorch, TensorFlow, scikit-learn, time-series modelling</dd></div>
+            <div><dt>Applications</dt><dd>TypeScript, React, FastAPI, event-driven systems, Web Audio</dd></div>
+            <div><dt>Data and delivery</dt><dd>PostgreSQL, Supabase, AWS, Docker, CI/CD</dd></div>
+            <div><dt>Analytics</dt><dd>SQL, Power BI, Tableau, KPI design, data-quality controls</dd></div>
+            <div><dt>AI development tools</dt><dd>Claude Code, Windsurf, Devin, Antigravity</dd></div>
           </dl>
+          <p class="tech-note">The full list, with versions and dates, is in the resume.</p>
         </div>
       </div>
     </section>
