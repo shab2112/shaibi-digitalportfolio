@@ -405,7 +405,10 @@ details strong { color: var(--text-2); }
 }
 @media (max-width: 640px) {
   body { font-size: 1rem; }
-  .brand-name > span { display: none; }
+  /* The brand is "The Idea Stock", not a person's name, so it cannot be
+     truncated to its first two words. Shrink it instead. */
+  .brand { gap: .45rem; font-size: .95rem; }
+  .nav-pill { gap: .5rem; }
   .hero { text-align: left; }
   .hero h1 { max-width: none; margin-inline: 0; }
   .hero .lead { margin-inline: 0; }
@@ -424,6 +427,13 @@ details strong { color: var(--text-2); }
   .layer-filter::-webkit-scrollbar { display: none; }
   .layer-filter button { flex: none; }
   .site-footer { flex-direction: column; }
+}
+
+/* Below this the brand name, the Resume CTA and the menu button stop fitting
+   on one pill and the menu button is pushed off-screen. The mark alone still
+   links home, so it is the safest thing to drop. */
+@media (max-width: 420px) {
+  .brand-name { display: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
