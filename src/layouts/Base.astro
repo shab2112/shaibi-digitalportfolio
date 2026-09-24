@@ -33,7 +33,7 @@ const {
   brandHref = '/',
 } = Astro.props;
 
-const site = Astro.site ?? new URL('https://theideastock.com');
+const site = Astro.site ?? new URL('https://www.theideastock.com');
 const canonical = new URL(path, site).href;
 const ogImageUrl = new URL(ogImage, site).href;
 const year = new Date().getFullYear();

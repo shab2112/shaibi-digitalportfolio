@@ -2,11 +2,15 @@
 #
 # Decap ships an OAuth provider for Netlify only, so `base_url` points at this
 # site's own /api/auth and /api/callback functions (see api/ in the repo root).
+#
+# This must be the host Vercel actually serves (www), not the apex. The apex
+# 308-redirects to www, and the OAuth state cookie set on the apex would not be
+# readable by the callback on www, so the login would fail on state mismatch.
 backend:
   name: github
   repo: shab2112/shaibi-digitalportfolio
   branch: main
-  base_url: https://theideastock.com
+  base_url: https://www.theideastock.com
   auth_endpoint: api/auth
 
 # Saves become pull requests instead of direct commits to main, so a bad edit
@@ -16,7 +20,7 @@ publish_mode: editorial_workflow
 media_folder: public/uploads
 public_folder: /uploads
 
-site_url: https://theideastock.com
+site_url: https://www.theideastock.com
 logo_url: /portrait.webp
 
 collections:

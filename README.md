@@ -76,12 +76,12 @@ If the dashboard still shows "Other" as the Framework Preset, that is fine — `
 Decap only hosts an OAuth provider for Netlify, so this repo ships its own in `api/`.
 
 1. On GitHub: **Settings → Developer settings → OAuth Apps → New OAuth App**
-   - Homepage URL: `https://theideastock.com`
-   - Authorization callback URL: `https://theideastock.com/api/callback`
+   - Homepage URL: `https://www.theideastock.com`
+   - Authorization callback URL: `https://www.theideastock.com/api/callback`
 2. In Vercel, add the two credentials as environment variables:
    - `OAUTH_CLIENT_ID`
    - `OAUTH_CLIENT_SECRET`
-3. Redeploy so the functions pick them up, then open `https://theideastock.com/admin`.
+3. Redeploy so the functions pick them up, then open `https://www.theideastock.com/admin`.
 
 `repo` in `public/admin/config.yml` must match the GitHub repository. If the repo is ever renamed, update it there.
 

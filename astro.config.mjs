@@ -3,7 +3,7 @@ import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
-  site: 'https://theideastock.com',
+  site: 'https://www.theideastock.com',
   // Static output: the whole site is prerendered, so it deploys anywhere.
   output: 'static',
   trailingSlash: 'ignore',
