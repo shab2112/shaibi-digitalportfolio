@@ -1,6 +1,6 @@
 @font-face {
   font-family: "Schibsted Grotesk";
-  src: url("fonts/schibsted.woff2") format("woff2");
+  src: url("/fonts/schibsted.woff2") format("woff2");
   font-weight: 400 900;
   font-style: normal;
   font-display: swap;
@@ -266,6 +266,11 @@ details strong { color: var(--text-2); }
    tab order and the accessibility tree, not just fade visually. */
 .card.is-dimmed { opacity: .32; filter: saturate(.3); }
 
+/* ---------- Venture grid (studio home) ---------- */
+.venture-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
+.card.venture::before { content: ""; display: block; height: 4px; background: linear-gradient(90deg, var(--tint), color-mix(in srgb, var(--tint) 15%, transparent)); }
+.card.venture .card-body { padding-top: 1.3rem; }
+
 /* ---------- Research ---------- */
 .pub-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
 .pub-venue { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem; margin: 0; color: var(--muted); font-size: .9rem; }
@@ -378,6 +383,7 @@ details strong { color: var(--text-2); }
   .bento .card.wide { grid-column: 1 / -1; }
   .proof-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .tech-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .venture-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 900px) {
   .menu-toggle { display: grid; }
@@ -405,7 +411,7 @@ details strong { color: var(--text-2); }
   .hero .lead { margin-inline: 0; }
   .hero .portrait { margin-inline: 0; }
   .hero-actions, .checks { justify-content: flex-start; }
-  .bento { grid-template-columns: 1fr; }
+  .bento, .venture-grid { grid-template-columns: 1fr; }
   .proof-list { grid-template-columns: 1fr 1fr; gap: .6rem; }
   .proof-list > div { padding: 1rem; }
   .timeline { padding-left: 1.75rem; }

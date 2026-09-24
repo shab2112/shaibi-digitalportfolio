@@ -1,0 +1,47 @@
+---
+export interface Props {
+  venture: {
+    name: string;
+    type: string;
+    status: string;
+    layer: string;
+    outcome: string;
+    summary: string;
+    tags: string[];
+    href: string;
+    linkLabel: string;
+    external?: boolean;
+  };
+}
+
+const { venture: v } = Astro.props;
+const linkAttrs = v.external ? { target: '_blank', rel: 'noreferrer' } : {};
+---
+
+<article class={`card venture tint-${v.layer}`}>
+  <div class="card-body">
+    <div class="card-meta">
+      <span class="badge">{v.status}</span>
+      <p class="card-type">{v.type}</p>
+    </div>
+    <h3>{v.name}</h3>
+    <p class="card-outcome">{v.outcome}</p>
+    <p class="card-summary">{v.summary}</p>
+    <ul class="tags" aria-label="Areas">
+      {v.tags.map((t) => <li>{t}</li>)}
+    </ul>
+    <p class="card-links">
+      <a class="explore" href={v.href} {...linkAttrs}>
+        {v.linkLabel}
+        {
+          v.external && (
+            <>
+              <span class="ext" aria-hidden="true">↗</span>
+              <span class="sr-only"> (opens in a new tab)</span>
+            </>
+          )
+        }
+      </a>
+    </p>
+  </div>
+</article>

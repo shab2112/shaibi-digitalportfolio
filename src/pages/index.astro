@@ -1,0 +1,256 @@
+---
+import Base from '../layouts/Base.astro';
+import VentureCard from '../components/VentureCard.astro';
+import { ventures } from '../data/ventures.js';
+
+const orgSchema = `{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "The Idea Stock",
+  "url": "https://theideastock.com",
+  "description": "A Dubai studio building AI systems that connect models, data and controls to real work.",
+  "address": { "@type": "PostalAddress", "addressLocality": "Dubai", "addressCountry": "AE" },
+  "founder": {
+    "@type": "Person",
+    "name": "Shaibi Shamsudeen",
+    "jobTitle": "AI Systems Architect",
+    "url": "https://theideastock.com/portfolio"
+  }
+}`;
+---
+
+<Base
+  title="The Idea Stock | AI systems studio, Dubai"
+  description="A Dubai studio building AI systems that connect models, data and controls to real work: multi-agent research tools, conversational platforms, ML pipelines and assurance controls."
+  path="/"
+>
+  <script type="application/ld+json" slot="head" is:inline set:html={orgSchema} />
+
+  <section class="hero" id="top" aria-labelledby="hero-title">
+    <div class="hero-glow" aria-hidden="true"></div>
+    <p class="hero-badge"><span class="status-dot" aria-hidden="true"></span>Taking on new work for 2026.</p>
+    <h1 id="hero-title">We build AI systems that hold up in production.</h1>
+    <p class="lead">
+      The Idea Stock is a Dubai studio led by <strong>Shaibi Shamsudeen</strong>. We design the unglamorous parts &mdash;
+      retrieval that returns the right thing, agents that hand off cleanly, controls that leave evidence &mdash; and ship
+      them into real operations.
+    </p>
+    <div class="hero-actions">
+      <a class="pill-button primary large" href="#ventures">See what we've built</a>
+      <a class="pill-button secondary large" href="#contact">Start a conversation</a>
+    </div>
+    <ul class="checks" aria-label="Focus areas">
+      <li>Multi-agent systems</li>
+      <li>Retrieval and evaluation</li>
+      <li>Assurance and controls</li>
+      <li>Applied ML</li>
+    </ul>
+  </section>
+
+  <section class="proof" aria-label="Track record">
+    <dl class="proof-list">
+      <div>
+        <dt>1</dt>
+        <dd>
+          Platform acquired by Dow Jones<a class="tile-link" href="/portfolio#case-cerico"
+            >CERICO<span class="ext" aria-hidden="true">&darr;</span></a
+          >
+        </dd>
+      </div>
+      <div>
+        <dt>2</dt>
+        <dd>
+          Accepted LLM safety workshop papers<a class="tile-link" href="/portfolio#research"
+            >Research<span class="ext" aria-hidden="true">&darr;</span></a
+          >
+        </dd>
+      </div>
+      <div>
+        <dt>&lt;1%</dt>
+        <dd>
+          Prediction error in production trading systems<a class="tile-link" href="/portfolio#case-trading"
+            >Trading<span class="ext" aria-hidden="true">&darr;</span></a
+          >
+        </dd>
+      </div>
+      <div>
+        <dt>18</dt>
+        <dd>
+          Years across enterprise risk, controls and AI<a class="tile-link" href="/portfolio#career"
+            >Career<span class="ext" aria-hidden="true">&darr;</span></a
+          >
+        </dd>
+      </div>
+    </dl>
+  </section>
+
+  <section class="section" id="ventures" aria-labelledby="ventures-title">
+    <header class="section-head">
+      <p class="comment">// Ventures and projects</p>
+      <h2 id="ventures-title">What we've built</h2>
+      <p class="section-sub">
+        Each one links a real problem to a system design and an outcome you can check. Colour marks the layer of the AI
+        system it lives in.
+      </p>
+    </header>
+
+    <div class="venture-grid">
+      {ventures.map((v) => <VentureCard venture={v} />)}
+    </div>
+  </section>
+
+  <section class="section" id="approach" aria-labelledby="approach-title">
+    <div class="split">
+      <div class="career-aside">
+        <header class="section-head">
+          <p class="comment">// How we work</p>
+          <h2 id="approach-title">Architecture first, then code</h2>
+          <p class="section-sub">
+            Most AI projects fail on the seams, not the model: the handoffs, the evaluation, the evidence trail. We start
+            by naming those, then build.
+          </p>
+        </header>
+        <a class="resume-card" href="/portfolio">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+          <div>
+            <strong>See the full AI portfolio</strong>
+            <small>Case studies, published research and career history.</small>
+          </div>
+        </a>
+      </div>
+
+      <ol class="flow" aria-label="How an engagement runs, in order">
+        <li>
+          <span class="step-n">1</span>
+          <div><strong>Frame the system</strong><small>What decides, what retrieves, what must be provable</small></div>
+        </li>
+        <li>
+          <span class="step-n">2</span>
+          <div><strong>Prove the risky part</strong><small>The one component most likely to sink the project</small></div>
+        </li>
+        <li>
+          <span class="step-n">3</span>
+          <div><strong>Build the loop</strong><small>Evaluation and cost tracking before scale</small></div>
+        </li>
+        <li>
+          <span class="step-n">4</span>
+          <div><strong>Ship into operations</strong><small>Integrated with the workflows people already use</small></div>
+        </li>
+        <li>
+          <span class="step-n">5</span>
+          <div><strong>Leave evidence</strong><small>So the system can be audited, not just trusted</small></div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="section contact" id="contact" aria-labelledby="contact-title">
+    <div class="hero-glow small" aria-hidden="true"></div>
+    <div class="contact-copy">
+      <p class="comment">// Let's talk</p>
+      <h2 id="contact-title">Got a system that needs building?</h2>
+      <p class="section-sub">
+        Tell me a little about the problem and the timeline, and I'll reply within a couple of days. I'm also open to
+        senior AI architecture roles.
+      </p>
+      <ul class="contact-links">
+        <li>
+          <a class="explore" href="mailto:shaibis@gmail.com">shaibis@gmail.com</a>
+          <button class="text-button copy-email" type="button" data-email="shaibis@gmail.com">Copy</button>
+        </li>
+        <li>
+          <a class="explore" href="https://www.linkedin.com/in/shaibi-shamsudeen" target="_blank" rel="noreferrer"
+            >LinkedIn<span class="ext" aria-hidden="true">↗</span><span class="sr-only"> (opens in a new tab)</span></a
+          >
+        </li>
+        <li>
+          <a class="explore" href="/portfolio">Full AI portfolio</a>
+        </li>
+      </ul>
+      <p class="copy-status" role="status" aria-live="polite"></p>
+    </div>
+
+    <form class="card contact-form" novalidate>
+      <div class="field-row">
+        <label>Your name<input name="name" type="text" autocomplete="name" placeholder="Jane Smith" required /></label>
+        <label>Company<input name="company" type="text" autocomplete="organization" placeholder="Acme AI" /></label>
+      </div>
+      <label>What you need<input name="role" type="text" placeholder="e.g. A retrieval system we can evaluate" /></label>
+      <label
+        >Message<textarea
+          name="message"
+          rows="4"
+          placeholder="A line or two is enough: the problem, the constraints, the timeline."
+          required></textarea></label
+      >
+      <p class="form-error" role="alert"></p>
+      <button class="pill-button primary large" type="submit">Draft email to Shaibi</button>
+      <p class="form-note">Opens your email app with this message filled in. Nothing is sent until you press send.</p>
+    </form>
+  </section>
+
+  <script>
+    /* ---------- Copy email ---------- */
+    const copyStatus = document.querySelector('.copy-status');
+    document.querySelector('.copy-email')?.addEventListener('click', async (e) => {
+      const email = e.currentTarget.dataset.email;
+      try {
+        await navigator.clipboard.writeText(email);
+        copyStatus.textContent = 'Email address copied';
+      } catch {
+        copyStatus.textContent = `Copy failed. The address is ${email}`;
+      }
+      clearTimeout(copyStatus._t);
+      copyStatus._t = setTimeout(() => {
+        copyStatus.textContent = '';
+      }, 3000);
+    });
+
+    /* ---------- Contact form: drafts an email, no backend needed ---------- */
+    const form = document.querySelector('.contact-form');
+    form?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const data = new FormData(form);
+      const name = (data.get('name') || '').trim();
+      const message = (data.get('message') || '').trim();
+      const error = form.querySelector('.form-error');
+      form.name.setAttribute('aria-invalid', String(!name));
+      form.message.setAttribute('aria-invalid', String(!message));
+      if (!name || !message) {
+        error.textContent =
+          !name && !message ? 'Add your name and a short message.' : !name ? 'Add your name.' : 'Add a short message.';
+        (!name ? form.name : form.message).focus();
+        return;
+      }
+      error.textContent = '';
+      const company = (data.get('company') || '').trim();
+      const role = (data.get('role') || '').trim();
+      const subject = role
+        ? `Project: ${role}${company ? ` at ${company}` : ''}`
+        : `Hello from ${name}${company ? `, ${company}` : ''}`;
+      const body = [message, '', `${name}${company ? `, ${company}` : ''}`].join('\n');
+      window.location.href = `mailto:shaibis@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    });
+
+    /* ---------- Active nav link ---------- */
+    const navLinks = [...document.querySelectorAll('nav a[href*="#"]')];
+    const sections = navLinks
+      .map((l) => document.querySelector(l.getAttribute('href').replace(/^\/?/, '').replace(/^#?/, '#')))
+      .filter(Boolean);
+    if ('IntersectionObserver' in window && sections.length) {
+      const io = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            navLinks.forEach((l) => {
+              if (l.getAttribute('href').endsWith(`#${entry.target.id}`)) l.setAttribute('aria-current', 'location');
+              else l.removeAttribute('aria-current');
+            });
+          });
+        },
+        { rootMargin: '-40% 0px -55% 0px' }
+      );
+      sections.forEach((s) => io.observe(s));
+    }
+  </script>
+</Base>
