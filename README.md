@@ -61,16 +61,11 @@ Two things worth knowing:
 
 Vercel, from this repo.
 
-**The project settings must be:**
+Build settings live in `vercel.json` (framework, build command, output directory) so they are version-controlled and override whatever the dashboard says. There is nothing to configure by hand.
 
-| Setting          | Value    |
-| ---------------- | -------- |
-| Framework Preset | Astro    |
-| Build Command    | `npm run build` |
-| Output Directory | `dist`   |
-| Root Directory   | *(repo root)* |
+> This changed. The site was previously plain HTML committed directly into `dist/`, deployed with Framework Preset "Other" and an empty build command. `dist/` is now generated output and is git-ignored, so that old configuration would fail the build. `vercel.json` is what corrects it.
 
-> This changed. The site was previously plain HTML committed directly into `dist/` with Framework Preset "Other" and an empty build command. `dist/` is now generated output and is git-ignored — if Vercel is still set to "Other", the deploy will serve nothing.
+If the dashboard still shows "Other" as the Framework Preset, that is fine — `vercel.json` takes precedence. Confirm on the next deployment's build log that it runs `npm run build`.
 
 ## The CMS
 
