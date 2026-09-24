@@ -1,10 +1,10 @@
 # The Idea Stock
 
-The studio site for The Idea Stock (Dubai), built with [Astro](https://astro.build). Static output, no server, no database.
+The site for The Idea Stock (Dubai), an AI systems lab. Built with [Astro](https://astro.build). Static output, no server, no database.
 
 | Route                | Page                                                                   |
 | -------------------- | ---------------------------------------------------------------------- |
-| `/`                  | Studio home: projects, approach, contact                                 |
+| `/`                  | Lab home: projects, approach, contact                                    |
 | `/portfolio`         | Shaibi Shamsudeen's AI systems portfolio: case studies, research, career |
 | `/projects/<slug>`   | A project's case study. Only generated for projects that opt in.         |
 | `/admin`             | Decap CMS. Edits commit to this repo and trigger a rebuild.              |
@@ -31,7 +31,7 @@ src/
   content.config.ts        Schema for the above; the build fails if a file breaks it
   layouts/Base.astro       Shared shell: head tags, nav, footer, theme toggle
   components/              Reusable pieces (VentureCard)
-  pages/index.astro        Studio home
+  pages/index.astro        Lab home
   pages/portfolio.astro    AI portfolio
   pages/projects/[slug]    Case-study pages, generated per opted-in project
   styles/global.css        Design tokens and every component style
