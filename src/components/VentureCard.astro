@@ -1,47 +1,64 @@
 ---
+import type { CollectionEntry } from 'astro:content';
+
 export interface Props {
-  venture: {
-    name: string;
-    type: string;
-    status: string;
-    layer: string;
-    outcome: string;
-    summary: string;
-    tags: string[];
-    href: string;
-    linkLabel: string;
-    external?: boolean;
-  };
+  project: CollectionEntry<'projects'>;
 }
 
-const { venture: v } = Astro.props;
-const linkAttrs = v.external ? { target: '_blank', rel: 'noreferrer' } : {};
+const { project } = Astro.props;
+const d = project.data;
+
+/**
+ * A project with a detail page links there; otherwise it falls back to its
+ * external link. Either way the card keeps the same footer row, so cards line
+ * up whether or not they have a page.
+ */
+const target = d.detailPage
+  ? { href: `/projects/${project.id}`, label: 'Read the case study', external: false }
+  : d.link
+    ? { href: d.link, label: d.linkLabel ?? 'Find out more', external: /^https?:/.test(d.link) }
+    : null;
 ---
 
-<article class={`card venture tint-${v.layer}`}>
+<article class={`card venture tint-${d.layer}`}>
   <div class="card-body">
     <div class="card-meta">
-      <span class="badge">{v.status}</span>
-      <p class="card-type">{v.type}</p>
+      <span class="badge">{d.status}</span>
+      <p class="card-type">{d.type}</p>
     </div>
-    <h3>{v.name}</h3>
-    <p class="card-outcome">{v.outcome}</p>
-    <p class="card-summary">{v.summary}</p>
-    <ul class="tags" aria-label="Areas">
-      {v.tags.map((t) => <li>{t}</li>)}
-    </ul>
+    <h3>{d.name}</h3>
+    <p class="card-outcome">{d.outcome}</p>
+    <p class="card-summary">{d.summary}</p>
+    {
+      d.tags.length > 0 && (
+        <ul class="tags" aria-label="Areas">
+          {d.tags.map((t) => (
+            <li>{t}</li>
+          ))}
+        </ul>
+      )
+    }
     <p class="card-links">
-      <a class="explore" href={v.href} {...linkAttrs}>
-        {v.linkLabel}
-        {
-          v.external && (
-            <>
-              <span class="ext" aria-hidden="true">↗</span>
-              <span class="sr-only"> (opens in a new tab)</span>
-            </>
-          )
-        }
-      </a>
+      {
+        target ? (
+          <a
+            class="explore"
+            href={target.href}
+            target={target.external ? '_blank' : undefined}
+            rel={target.external ? 'noreferrer' : undefined}
+          >
+            {target.label}
+            {target.external && (
+              <>
+                <span class="ext" aria-hidden="true">↗</span>
+                <span class="sr-only"> (opens in a new tab)</span>
+              </>
+            )}
+          </a>
+        ) : (
+          <span>Details on request</span>
+        )
+      }
     </p>
   </div>
 </article>

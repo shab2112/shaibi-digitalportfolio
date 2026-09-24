@@ -2,10 +2,12 @@
 
 The studio site for The Idea Stock (Dubai), built with [Astro](https://astro.build). Static output, no server, no database.
 
-| Route        | Page                                                                        |
-| ------------ | --------------------------------------------------------------------------- |
-| `/`          | Studio home: ventures, approach, contact                                      |
-| `/portfolio` | Shaibi Shamsudeen's AI systems portfolio: case studies, research, career      |
+| Route                | Page                                                                   |
+| -------------------- | ---------------------------------------------------------------------- |
+| `/`                  | Studio home: projects, approach, contact                                 |
+| `/portfolio`         | Shaibi Shamsudeen's AI systems portfolio: case studies, research, career |
+| `/projects/<slug>`   | A project's case study. Only generated for projects that opt in.         |
+| `/admin`             | Decap CMS. Edits commit to this repo and trigger a rebuild.              |
 
 ## Running it
 
@@ -23,21 +25,30 @@ npm run dev      # http://localhost:4321
 ## Layout
 
 ```
+api/                       Vercel serverless functions (GitHub OAuth for the CMS)
 src/
+  content/projects/        One markdown file per project. The CMS edits these.
+  content.config.ts        Schema for the above; the build fails if a file breaks it
   layouts/Base.astro       Shared shell: head tags, nav, footer, theme toggle
   components/              Reusable pieces (VentureCard)
-  data/ventures.js         The venture list that drives the home page
   pages/index.astro        Studio home
   pages/portfolio.astro    AI portfolio
+  pages/projects/[slug]    Case-study pages, generated per opted-in project
   styles/global.css        Design tokens and every component style
 public/                    Served verbatim at the site root: fonts, images, PDFs
+public/admin/              Decap CMS shell and its schema
 ```
 
-### Adding a venture
+### Adding a project
 
-Append an entry to `src/data/ventures.js`. Nothing else needs editing — the home page maps over that array.
+Either use `/admin`, or add a markdown file to `src/content/projects/`. Both write the same thing, and the schema in `src/content.config.ts` validates it at build time — a missing or misspelled field fails the build rather than shipping a broken card.
 
-`layer` must be one of `agents`, `retrieval`, `safety`, `controls`, `data`, `workflows`. It selects a `--layer-*` colour token, which tints the card. The colour is meaningful: it tells a reader which layer of an AI system the work sits in, and the portfolio's filter chips use the same scale.
+Two things worth knowing:
+
+- **`layer`** must be one of `agents`, `retrieval`, `safety`, `controls`, `data`, `workflows`. It selects a `--layer-*` colour token, which tints the card. The colour is meaningful: it tells a reader which layer of an AI system the work sits in, and the portfolio's filter chips use the same scale.
+- **`detailPage`** decides whether the project is a card only or also gets its own page. When it is `true`, the file's markdown body is published at `/projects/<slug>` and the card links there instead of to `link`. When `false`, the body is ignored and the card links straight out to `link`.
+
+`order` sorts the home page, lowest first. `draft: true` hides a project from the live site.
 
 ### Design notes
 
@@ -60,6 +71,30 @@ Vercel, from this repo.
 | Root Directory   | *(repo root)* |
 
 > This changed. The site was previously plain HTML committed directly into `dist/` with Framework Preset "Other" and an empty build command. `dist/` is now generated output and is git-ignored — if Vercel is still set to "Other", the deploy will serve nothing.
+
+## The CMS
+
+`/admin` runs [Decap CMS](https://decapcms.org). It is a git-backed editor: you sign in with GitHub, and saving opens a pull request against `main` (`publish_mode: editorial_workflow`). Merging it triggers a Vercel rebuild. Nothing is stored outside the repo, so content is versioned with the code and there is no database to maintain.
+
+### One-time setup
+
+Decap only hosts an OAuth provider for Netlify, so this repo ships its own in `api/`.
+
+1. On GitHub: **Settings → Developer settings → OAuth Apps → New OAuth App**
+   - Homepage URL: `https://theideastock.com`
+   - Authorization callback URL: `https://theideastock.com/api/callback`
+2. In Vercel, add the two credentials as environment variables:
+   - `OAUTH_CLIENT_ID`
+   - `OAUTH_CLIENT_SECRET`
+3. Redeploy so the functions pick them up, then open `https://theideastock.com/admin`.
+
+`repo` in `public/admin/config.yml` must match the GitHub repository. If the repo is ever renamed, update it there.
+
+### Notes
+
+- Anyone with write access to the repository can sign in to `/admin`. Access is GitHub's to control, not the site's.
+- The editor is unavailable on `localhost` unless you point `base_url` at a running tunnel. Editing the markdown files directly is usually quicker in development.
+- Images uploaded through the CMS land in `public/uploads/` and are committed to the repo. That is fine for a handful; if it grows to hundreds, move to an image host.
 
 ### Before the first deploy on this domain
 

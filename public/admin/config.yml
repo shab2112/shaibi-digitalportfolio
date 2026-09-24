@@ -1,0 +1,99 @@
+# Decap CMS. Saving here commits to the repo, which triggers a Vercel rebuild.
+#
+# Decap ships an OAuth provider for Netlify only, so `base_url` points at this
+# site's own /api/auth and /api/callback functions (see api/ in the repo root).
+backend:
+  name: github
+  repo: shab2112/shaibi-digitalportfolio
+  branch: main
+  base_url: https://theideastock.com
+  auth_endpoint: api/auth
+
+# Saves become pull requests instead of direct commits to main, so a bad edit
+# cannot break the live site on its own.
+publish_mode: editorial_workflow
+
+media_folder: public/uploads
+public_folder: /uploads
+
+site_url: https://theideastock.com
+logo_url: /portrait.webp
+
+collections:
+  - name: projects
+    label: Projects
+    label_singular: Project
+    folder: src/content/projects
+    create: true
+    slug: '{{slug}}'
+    identifier_field: name
+    summary: '{{name}} — {{status}}'
+    sortable_fields: [order, name, status]
+    editor:
+      preview: false
+    fields:
+      - { name: name, label: Project name, widget: string }
+      - {
+          name: order,
+          label: Sort order,
+          widget: number,
+          default: 50,
+          value_type: int,
+          hint: Lower numbers appear first on the home page.,
+        }
+      - {
+          name: type,
+          label: What kind of thing it is,
+          widget: string,
+          hint: 'Shown above the title, e.g. "Multi-agent research system".',
+        }
+      - {
+          name: status,
+          label: Status,
+          widget: select,
+          options: [In production, In development, Open source, Published, Acquired, Research, Archived],
+        }
+      - {
+          name: layer,
+          label: System layer,
+          widget: select,
+          options: [agents, retrieval, safety, controls, data, workflows],
+          hint: Sets the card colour. Pick the layer the work mainly sits in.,
+        }
+      - {
+          name: outcome,
+          label: Outcome,
+          widget: text,
+          hint: One or two sentences a reader could go and verify. This is the line that does the persuading.,
+        }
+      - { name: summary, label: Summary, widget: text, hint: Two or three sentences describing what it does. }
+      - { name: tags, label: Tags, widget: list, default: [], hint: Three or four is plenty. }
+      - {
+          name: link,
+          label: External link,
+          widget: string,
+          required: false,
+          hint: 'Repository, announcement or live site. Leave empty if there is nothing public.',
+        }
+      - { name: linkLabel, label: Link text, widget: string, required: false, default: Find out more }
+      - {
+          name: detailPage,
+          label: Give this project its own page,
+          widget: boolean,
+          default: false,
+          hint: When on, the body below is published at /projects/<slug> and the card links there instead of the external link.,
+        }
+      - {
+          name: draft,
+          label: Draft,
+          widget: boolean,
+          default: false,
+          hint: Drafts are hidden from the live site.,
+        }
+      - {
+          name: body,
+          label: Case study,
+          widget: markdown,
+          required: false,
+          hint: Only used when "own page" is on. Headings, lists, images and links all work.,
+        }

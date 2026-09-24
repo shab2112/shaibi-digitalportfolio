@@ -1,7 +1,11 @@
 ---
 import Base from '../layouts/Base.astro';
 import VentureCard from '../components/VentureCard.astro';
-import { ventures } from '../data/ventures.js';
+import { getCollection } from 'astro:content';
+
+const projects = (await getCollection('projects', (p) => !p.data.draft)).sort(
+  (a, b) => a.data.order - b.data.order
+);
 
 const orgSchema = `{
   "@context": "https://schema.org",
@@ -95,7 +99,7 @@ const orgSchema = `{
     </header>
 
     <div class="venture-grid">
-      {ventures.map((v) => <VentureCard venture={v} />)}
+      {projects.map((p) => <VentureCard project={p} />)}
     </div>
   </section>
 
